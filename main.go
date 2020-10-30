@@ -1,5 +1,6 @@
 package main
 
+//Import packages
 import (
 	"bufio"
 	"fmt"
@@ -7,10 +8,12 @@ import (
 	"os"
 )
 
+//Funtion for logging errors
 func errorHandler(err error) {
 	println("Ops, something went wrong:", err)
 }
 
+//Function to get attendance
 func getStudentInfo() (name, age, course string) {
 	fmt.Println("Enter the student name:")
 
@@ -30,6 +33,7 @@ func getStudentInfo() (name, age, course string) {
 	return name, age, course
 }
 
+//Main
 func main() {
 	name, age, course := getStudentInfo()
 
