@@ -14,28 +14,28 @@ func errorHandler(err error) {
 }
 
 //Function to get attendance
-func getStudentInfo() (name, age, course string) {
+func getStudentInfo() (name, roll, course string) {
 	fmt.Println("Enter the student name:")
 
 	inputReader := bufio.NewReader(os.Stdin)
 	name, _ = inputReader.ReadString('\n')
 
-	fmt.Println("Enter the student age:")
+	fmt.Println("Enter the student roll number:")
 
 	inputReader = bufio.NewReader(os.Stdin)
-	age, _ = inputReader.ReadString('\n')
+	roll, _ = inputReader.ReadString('\n')
 
 	fmt.Println("Enter the course:")
 
 	inputReader = bufio.NewReader(os.Stdin)
 	course, _ = inputReader.ReadString('\n')
 
-	return name, age, course
+	return name, roll, course
 }
 
 //Main
 func main() {
-	name, age, course := getStudentInfo()
+	name, roll, course := getStudentInfo()
 
 	file, err := os.Create("attendance.txt")
 	if err != nil {
@@ -46,7 +46,7 @@ func main() {
 	defer file.Close()
 
 	_, err2 := file.WriteString(name)
-	_, err3 := file.WriteString(age)
+	_, err3 := file.WriteString(roll)
 	_, err4 := file.WriteString(course)
 
 	if err2 != nil {
