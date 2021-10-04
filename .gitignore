@@ -1,7 +1,4 @@
-#Ignore binaries
-*
-!*.*
-
+# The output file
 attendance.txt
 
 # Binaries for programs and plugins
