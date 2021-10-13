@@ -3,6 +3,7 @@ package main
 //Import packages
 import (
 	"bufio"
+	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
@@ -37,6 +38,7 @@ func getStudentInfo() (name, roll, course string) {
 //Main
 func main() {
 	name, roll, course := getStudentInfo()
+	record := []string{name, roll, course}
 
 	file, err := os.Create("attendance.txt")
 	if err != nil {
@@ -44,25 +46,16 @@ func main() {
 		log.Fatalf("%s", err)
 	}
 
+	w := csv.NewWriter(file)
+
 	defer file.Close()
 
-	_, err2 := file.WriteString(name + ", ")
-	_, err3 := file.WriteString(roll + ", ")
-	_, err4 := file.WriteString(course + "\n")
+	w.Write(record)
+	w.Flush()
+	err = w.Error()
 
-	if err2 != nil {
-		errorHandler(err2)
-		log.Fatalf("%s", err2)
+	if err != nil {
+		errorHandler(err)
+		log.Fatalf("%s", err)
 	}
-
-	if err3 != nil {
-		errorHandler(err3)
-		log.Fatalf("%s", err3)
-	}
-
-	if err4 != nil {
-		errorHandler(err4)
-		log.Fatalf("%s", err4)
-	}
-
 }
