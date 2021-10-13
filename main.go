@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 //Funtion for logging errors
@@ -30,7 +31,7 @@ func getStudentInfo() (name, roll, course string) {
 	inputReader = bufio.NewReader(os.Stdin)
 	course, _ = inputReader.ReadString('\n')
 
-	return name, roll, course
+	return strings.TrimSpace(name), strings.TrimSpace(roll), strings.TrimSpace(course)
 }
 
 //Main
@@ -45,9 +46,9 @@ func main() {
 
 	defer file.Close()
 
-	_, err2 := file.WriteString(name)
-	_, err3 := file.WriteString(roll)
-	_, err4 := file.WriteString(course)
+	_, err2 := file.WriteString(name + ", ")
+	_, err3 := file.WriteString(roll + ", ")
+	_, err4 := file.WriteString(course + "\n")
 
 	if err2 != nil {
 		errorHandler(err2)
