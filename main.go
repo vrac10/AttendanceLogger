@@ -22,7 +22,6 @@ func getStudentInfo() (name, roll, course string) {
 	fmt.Println("Month: ", now.Month())
 	fmt.Println("Year: ", now.Year())
 	fmt.Println("Time: ", now.Local())
-	epoch:= now.Unix()
 	
 	fmt.Println("Enter the student name:")
 
@@ -39,12 +38,12 @@ func getStudentInfo() (name, roll, course string) {
 	inputReader = bufio.NewReader(os.Stdin)
 	course, _ = inputReader.ReadString('\n')
 
-	return epoch, name, roll, course
+	return name, roll, course
 }
 
 //Main
 func main() {
-	epoch, name, roll, course := getStudentInfo()
+	name, roll, course := getStudentInfo()
 
 	file, err := os.Create("attendance.txt")
 	if err != nil {
@@ -53,12 +52,18 @@ func main() {
 	}
 
 	defer file.Close()
-	_, err1 := file.WriteInt(epoch)
+	now:= time.Now()
+	epoch:=now.Unix()
+	x:= fmt.Sprintf("%d", epoch)
+	_, err1 := file.WriteString(x)
 	_, err2 := file.WriteString(name)
 	_, err3 := file.WriteString(roll)
 	_, err4 := file.WriteString(course)
 
-	
+	if err1 != nil {
+		errorHandler(err1)
+		log.Fatalf("%s", err1)
+	}	
 	if err2 != nil {
 		errorHandler(err2)
 		log.Fatalf("%s", err2)
