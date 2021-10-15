@@ -53,15 +53,12 @@ func main() {
 	}
 
 	defer file.Close()
-	_, err1 := file.WriteString(epoch)
+	_, err1 := file.WriteInt(epoch)
 	_, err2 := file.WriteString(name)
 	_, err3 := file.WriteString(roll)
 	_, err4 := file.WriteString(course)
 
-	if err1 != nil {
-		errorHandler(err1)
-		log.Fatalf("%s", err1)
-	}	
+	
 	if err2 != nil {
 		errorHandler(err2)
 		log.Fatalf("%s", err2)
