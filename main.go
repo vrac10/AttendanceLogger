@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 //Funtion for logging errors
@@ -15,6 +16,14 @@ func errorHandler(err error) {
 
 //Function to get attendance
 func getStudentInfo() (name, roll, course string) {
+	
+	now:= time.Now()
+	fmt.Println("Day: ", now.Day())
+	fmt.Println("Month: ", now.Month())
+	fmt.Println("Year: ", now.Year())
+	fmt.Println("Time: ", now.Local())
+	epoch:= now.Unix()
+	
 	fmt.Println("Enter the student name:")
 
 	inputReader := bufio.NewReader(os.Stdin)
@@ -30,12 +39,12 @@ func getStudentInfo() (name, roll, course string) {
 	inputReader = bufio.NewReader(os.Stdin)
 	course, _ = inputReader.ReadString('\n')
 
-	return name, roll, course
+	return epoch, name, roll, course
 }
 
 //Main
 func main() {
-	name, roll, course := getStudentInfo()
+	epoch, name, roll, course := getStudentInfo()
 
 	file, err := os.Create("attendance.txt")
 	if err != nil {
@@ -44,11 +53,15 @@ func main() {
 	}
 
 	defer file.Close()
-
+	_, err1 := file.WriteString(epoch)
 	_, err2 := file.WriteString(name)
 	_, err3 := file.WriteString(roll)
 	_, err4 := file.WriteString(course)
 
+	if err1 != nil {
+		errorHandler(err1)
+		log.Fatalf("%s", err1)
+	}	
 	if err2 != nil {
 		errorHandler(err2)
 		log.Fatalf("%s", err2)
