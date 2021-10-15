@@ -21,7 +21,7 @@ func getStudentInfo() (name, roll, course string) {
 	fmt.Println("Day: ", now.Day())
 	fmt.Println("Month: ", now.Month())
 	fmt.Println("Year: ", now.Year())
-	fmt.Println("Time: ", now.Local())
+	fmt.Println("Time: ", now.Local(), "\n")
 	
 	fmt.Println("Enter the student name:")
 
@@ -54,11 +54,13 @@ func main() {
 	defer file.Close()
 	now:= time.Now()
 	epoch:=now.Unix()
-	x:= fmt.Sprintf("%d", epoch)
-	_, err1 := file.WriteString(x)
+	epochtime:= fmt.Sprintf("%d", epoch, "\n")
+	normtime:= fmt.Sprintf("%d", now, "\n")
+	_, err1 := file.WriteString(epochtime)
 	_, err2 := file.WriteString(name)
 	_, err3 := file.WriteString(roll)
 	_, err4 := file.WriteString(course)
+	_, err5 := file.WriteString(normtime)
 
 	if err1 != nil {
 		errorHandler(err1)
@@ -77,6 +79,10 @@ func main() {
 	if err4 != nil {
 		errorHandler(err4)
 		log.Fatalf("%s", err4)
+	}
+	if err5 != nil {
+		errorHandler(err5)
+		log.Fatalf("%s", err5)
 	}
 
 }
