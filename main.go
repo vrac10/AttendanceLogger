@@ -3,9 +3,11 @@ package main
 //Import packages
 import (
 	"bufio"
+	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -15,14 +17,15 @@ func errorHandler(err error) {
 }
 
 //Function to get attendance
-func getStudentInfo() (name, roll, course string) {
+
+
 	
+
+func getStudentInfo() (epochtime, name, roll, course string) {
 	now:= time.Now()
-	fmt.Println("Day: ", now.Day())
-	fmt.Println("Month: ", now.Month())
-	fmt.Println("Year: ", now.Year())
 	fmt.Println("Time: ", now.Local(), "\n")
-	
+	epoch:=now.Unix()
+	epochtime= string(epoch)
 	fmt.Println("Enter the student name:")
 
 	inputReader := bufio.NewReader(os.Stdin)
@@ -38,12 +41,13 @@ func getStudentInfo() (name, roll, course string) {
 	inputReader = bufio.NewReader(os.Stdin)
 	course, _ = inputReader.ReadString('\n')
 
-	return name, roll, course
+	return strings.TrimSpace(epochtime), strings.TrimSpace(name), strings.TrimSpace(roll), strings.TrimSpace(course)
 }
 
 //Main
 func main() {
-	name, roll, course := getStudentInfo()
+	 epochtime, name, roll, course := getStudentInfo()
+	record := []string{epochtime, name, roll, course}
 
 	file, err := os.Create("attendance.txt")
 	if err != nil {
@@ -51,38 +55,16 @@ func main() {
 		log.Fatalf("%s", err)
 	}
 
+	w := csv.NewWriter(file)
+
 	defer file.Close()
-	now:= time.Now()
-	epoch:=now.Unix()
-	epochtime:= fmt.Sprintf("%d", epoch, "\n")
-	normtime:= fmt.Sprintf("%d", now, "\n")
-	_, err1 := file.WriteString(epochtime)
-	_, err2 := file.WriteString(name)
-	_, err3 := file.WriteString(roll)
-	_, err4 := file.WriteString(course)
-	_, err5 := file.WriteString(normtime)
 
-	if err1 != nil {
-		errorHandler(err1)
-		log.Fatalf("%s", err1)
-	}	
-	if err2 != nil {
-		errorHandler(err2)
-		log.Fatalf("%s", err2)
-	}
+	w.Write(record)
+	w.Flush()
+	err = w.Error()
 
-	if err3 != nil {
-		errorHandler(err3)
-		log.Fatalf("%s", err3)
+	if err != nil {
+		errorHandler(err)
+		log.Fatalf("%s", err)
 	}
-
-	if err4 != nil {
-		errorHandler(err4)
-		log.Fatalf("%s", err4)
-	}
-	if err5 != nil {
-		errorHandler(err5)
-		log.Fatalf("%s", err5)
-	}
-
 }
