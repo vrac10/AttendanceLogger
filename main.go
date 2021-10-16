@@ -19,7 +19,14 @@ func errorHandler(err error) {
 //Function to get attendance
 
 
-	
+
+func viewAttendance() {
+	println("This will show you attendance")
+}	
+
+func resetAttendance(){
+	println("This will reset attendance")
+}
 
 func getStudentInfo() (normtime, epochtime, name, roll, course string) {
 	now:= time.Now()
@@ -49,26 +56,45 @@ func getStudentInfo() (normtime, epochtime, name, roll, course string) {
 
 //Main
 func main() {
+	
+	fmt.Println("Type \n")
+	fmt.Println("1 to view attendance")
+	fmt.Println("2 to log attendance")
+	fmt.Println("3 to reset attendance")
+	
+	var option int
+	
+	fmt.Scanln(&option)
+	
+	switch option {
+		case 1:
+			viewAttendance()
+		case 2:
+			normtime, epochtime, name, roll, course := getStudentInfo()
+			record := []string{normtime, epochtime, name, roll, course}
 
-	 normtime, epochtime, name, roll, course := getStudentInfo()
-	record := []string{normtime, epochtime, name, roll, course}
-
-	file, err := os.OpenFile("attendance.txt", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
-	if err != nil {
-		panic(err)
-	}
+			file, err := os.OpenFile("attendance.txt", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+			if err != nil {
+				panic(err)
+			}
 	
 
-	w := csv.NewWriter(file)
+			w := csv.NewWriter(file)
 
-	defer file.Close()
+			defer file.Close()
 
-	w.Write(record)
-	w.Flush()
-	err = w.Error()
+			w.Write(record)
+			w.Flush()
+			err = w.Error()
 
-	if err != nil {
-		errorHandler(err)
-		log.Fatalf("%s", err)
+			if err != nil {
+				errorHandler(err)
+				log.Fatalf("%s", err)
+			}
+		case 3:
+			resetAttendance()
 	}
+	
+	
+	
 }
