@@ -44,10 +44,12 @@ func getStudentInfo() (normtime, epochtime, name, roll, course string) {
 	course, _ = inputReader.ReadString('\n')
 
 	return strings.TrimSpace(normtime), strings.TrimSpace(epochtime), strings.TrimSpace(name), strings.TrimSpace(roll), strings.TrimSpace(course)
+
 }
 
 //Main
 func main() {
+
 	 normtime, epochtime, name, roll, course := getStudentInfo()
 	record := []string{normtime, epochtime, name, roll, course}
 
