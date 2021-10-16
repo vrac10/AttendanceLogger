@@ -26,6 +26,13 @@ func viewAttendance() {
 
 func resetAttendance(){
 	println("This will reset attendance")
+	
+	e := os.Remove("attendance.txt")
+	if e != nil {
+        log.Fatal(e)
+    } else{
+		println("Attendance Cleared")
+	}
 }
 
 func getStudentInfo() (normtime, epochtime, name, roll, course string) {
