@@ -25,7 +25,7 @@ func getStudentInfo() (epochtime, name, roll, course string) {
 	now:= time.Now()
 	fmt.Println("Time: ", now.Local(), "\n")
 	epoch:=now.Unix()
-	epochtime= string(epoch)
+	epochtime=fmt.Sprint(epoch)
 	fmt.Println("Enter the student name:")
 
 	inputReader := bufio.NewReader(os.Stdin)
