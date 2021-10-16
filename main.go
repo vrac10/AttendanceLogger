@@ -22,6 +22,22 @@ func errorHandler(err error) {
 
 func viewAttendance() {
 	println("This will show you attendance")
+	    file, err := os.Open("attendance.txt")
+    if err != nil {
+		errorHandler(err)
+        log.Fatal(err)
+    }
+    defer file.Close()
+
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+        fmt.Println(scanner.Text())
+    }
+
+    if err := scanner.Err(); err != nil {
+		errorHandler(err)
+        log.Fatal(err)
+    }
 }	
 
 func resetAttendance(){
@@ -29,6 +45,7 @@ func resetAttendance(){
 	
 	e := os.Remove("attendance.txt")
 	if e != nil {
+		errorHandler(e)
         log.Fatal(e)
     } else{
 		println("Attendance Cleared")
