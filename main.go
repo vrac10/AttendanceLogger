@@ -53,11 +53,11 @@ func main() {
 	 normtime, epochtime, name, roll, course := getStudentInfo()
 	record := []string{normtime, epochtime, name, roll, course}
 
-	file, err := os.Create("attendance.txt")
+	file, err := os.OpenFile("attendance.txt", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
-		errorHandler(err)
-		log.Fatalf("%s", err)
+		panic(err)
 	}
+	
 
 	w := csv.NewWriter(file)
 
