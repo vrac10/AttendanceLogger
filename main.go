@@ -21,11 +21,13 @@ func errorHandler(err error) {
 
 	
 
-func getStudentInfo() (epochtime, name, roll, course string) {
+func getStudentInfo() (normtime, epochtime, name, roll, course string) {
 	now:= time.Now()
 	fmt.Println("Time: ", now.Local(), "\n")
 	epoch:=now.Unix()
+	norm:=now.Local()
 	epochtime=fmt.Sprint(epoch)
+	normtime=fmt.Sprint(norm)
 	fmt.Println("Enter the student name:")
 
 	inputReader := bufio.NewReader(os.Stdin)
@@ -41,13 +43,13 @@ func getStudentInfo() (epochtime, name, roll, course string) {
 	inputReader = bufio.NewReader(os.Stdin)
 	course, _ = inputReader.ReadString('\n')
 
-	return strings.TrimSpace(epochtime), strings.TrimSpace(name), strings.TrimSpace(roll), strings.TrimSpace(course)
+	return strings.TrimSpace(normtime), strings.TrimSpace(epochtime), strings.TrimSpace(name), strings.TrimSpace(roll), strings.TrimSpace(course)
 }
 
 //Main
 func main() {
-	 epochtime, name, roll, course := getStudentInfo()
-	record := []string{epochtime, name, roll, course}
+	 normtime, epochtime, name, roll, course := getStudentInfo()
+	record := []string{normtime, epochtime, name, roll, course}
 
 	file, err := os.Create("attendance.txt")
 	if err != nil {
