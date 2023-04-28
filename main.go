@@ -26,10 +26,12 @@ func viewAttendance() {
 	Reader := bufio.NewReader(os.Stdin)
 	classname1, _ := Reader.ReadString('\n')
 
-	if _, err := os.Stat(classname1); os.IsNotExist(err) {
+	file1 := strings.TrimSpace((classname1)) + "attendance.txt"
+
+	if _, err := os.Stat(file1); os.IsNotExist(err) {
 		println("No attendance to show")
 	} else {
-		file, err := os.Open(classname1)
+		file, err := os.Open(file1)
 		if err != nil {
 			errorHandler(err)
 			log.Fatal(err)
@@ -58,10 +60,12 @@ func resetAttendance() {
 	inputReader := bufio.NewReader(os.Stdin)
 	classname, _ := inputReader.ReadString('\n')
 
-	if _, err := os.Stat(classname); os.IsNotExist(err) {
+	file := strings.TrimSpace(classname) + "attendance.txt"
+
+	if _, err := os.Stat(file); os.IsNotExist(err) {
 		println("Attendance already clear")
 	} else {
-		e := os.Remove(classname)
+		e := os.Remove(file)
 		if e != nil {
 			errorHandler(e)
 			log.Fatal(e)
